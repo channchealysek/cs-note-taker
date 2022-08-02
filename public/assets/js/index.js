@@ -31,16 +31,15 @@ const getNotes = () =>
       'Content-Type': 'application/json',
     }
   }).then((res) => res.json())
-    .then((notes) => notes)
 
-const saveNote = (note) =>
+const saveNote = async (note) =>
   fetch('/api/notes', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(note),
-  });
+  })
 
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
@@ -71,6 +70,7 @@ const handleNoteSave = () => {
     title: noteTitle.value,
     text: noteText.value,
   };
+
   saveNote(newNote).then(() => {
     getAndRenderNotes();
     renderActiveNote();
