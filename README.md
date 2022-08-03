@@ -53,7 +53,7 @@
   https://drive.google.com/file/d/1dYD1OKuvdB7NJoFwBrTj8f3BKC908CId/view?usp=sharing
 
   ## LiveURL
-  https://drive.google.com/file/d/1dYD1OKuvdB7NJoFwBrTj8f3BKC908CId/view?usp=sharing
+  https://csnote-taker.herokuapp.com/
 
   ## Questions
   If you have any questions please contact me by e-mail bellow:  
