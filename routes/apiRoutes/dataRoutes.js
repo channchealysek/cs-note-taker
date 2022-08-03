@@ -1,35 +1,27 @@
-
+const fs = require("fs");
 const router = require('express').Router();
-const { getAndRenderNotes, getNotes} = require('../../public/assets/js/index');
-const { data } = require('../../lib/data');
+const { v4: uuidv4 } = require("uuid");
 
-router.get('/data', (req, res) => {
-  let results = data;
-  if (req.query) {
-    results = filterByQuery(req.query, results);
-  }
-  res.json(results);
+let notesDb = require('../../db/db.json');
+
+router.get('/notes', (req, res) => res.json(notesDb));
+router.post('/notes', (req, res) => {
+  req.body.id = uuidv4();
+  const newNote = req.body;
+  notesDb.push(newNote);
+  
+  fs.writeFileSync("./db/db.json", JSON.stringify(notesDb));
+  res.json(notesDb);
 });
 
-router.get('/data/:id', (req, res) => {
-  const result = findByTitle(req.params.id, data);
-  if (result) {
-    res.json(result);
-  } else {
-    res.send(404);
-  }
-});
+router.delete('/notes/:id', (req, res) => {
+  const id = req.params.id;
+  notesDb = notesDb.filter(notes => notes.id != id);
+  console.log(id)
+  console.log(notesDb)
+  fs.writeFileSync("./db/db.json", JSON.stringify(notesDb));
+  res.json(notesDb);
 
-router.post('/data', (req, res) => {
-  // set id based on what the next index of the array will be
-  req.body.id = data.length.toString();
-
-  if (!validateData(req.body)) {
-    res.status(400).send('The data is not properly formatted.');
-  } else {
-    const data = createNewData(req.body, data);
-    res.json(data);
-  }
 });
 
 module.exports = router;
